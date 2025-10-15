@@ -424,14 +424,14 @@
               <div class="header-actions"></div>
             </div>
 
-            <div class="os-grid">
+            <div id="os_distribution_analytics" class="os-grid">
               <div class="os-stat-item windows11">
                 <div class="os-icon-wrapper">
                   <i class="fab fa-windows"></i>
-                  <div class="version-badge">11</div>
+                  <div class="version-badge">10</div>
                 </div>
                 <div class="os-info">
-                  <div class="os-count" data-target="59">0</div>
+                  <!-- <div class="os-count" data-target="59">0</div> -->
                   <div class="os-name">Windows 10</div>
                   <div class="os-details">
                     <span class="percentage">92.2%</span>
@@ -467,10 +467,10 @@
               <div class="os-stat-item windows10">
                 <div class="os-icon-wrapper">
                   <i class="fab fa-windows"></i>
-                  <div class="version-badge">10</div>
+                  <div class="version-badge">11</div>
                 </div>
                 <div class="os-info">
-                  <div class="os-count" data-target="4">0</div>
+                  <!-- <div class="os-count" data-target="4">0</div> -->
                   <div class="os-name">Windows 11</div>
                   <div class="os-details">
                     <span class="percentage">6.2%</span>
@@ -509,7 +509,7 @@
                   <div class="version-badge">14</div>
                 </div>
                 <div class="os-info">
-                  <div class="os-count" data-target="1">0</div>
+                  <!-- <div class="os-count" data-target="1">0</div> -->
                   <div class="os-name">macOS</div>
                   <div class="os-details">
                     <span class="percentage">1.6%</span>
@@ -543,62 +543,62 @@
               </div>
             </div>
 
-            <!--<div class="chart-section">
+            <!-- <div class="chart-section">
               <div class="chart-container">
                 <canvas id="osChart"></canvas>
               </div>
             </div> -->
-             <!-- Horizontal OS Distribution Chart -->
-                            <div class="os-horizontal-chart">
-                                <div class="os-chart-item" data-os="windows10">
-                                    <div class="os-label">
-                                        <i class="fab fa-windows"></i>
-                                        <span class="os-name">Windows 10</span>
-                                        <span class="os-version">22H2</span>
-                                    </div>
-                                    <div class="os-bar-container">
-                                        <div class="os-bar" data-percentage="84.6">
-                                            <div class="os-bar-fill" style="width: 84.6%"></div>
-                                            <div class="os-bar-shimmer"></div>
-                                        </div>
-                                        <div class="os-count">126 devices</div>
-                                    </div>
-                                    <div class="os-percentage">84.6%</div>
-                                </div>
-
-                                <div class="os-chart-item" data-os="windows11">
-                                    <div class="os-label">
-                                        <i class="fab fa-windows"></i>
-                                        <span class="os-name">Windows 11</span>
-                                        <span class="os-version">24H2</span>
-                                    </div>
-                                    <div class="os-bar-container">
-                                        <div class="os-bar" data-percentage="13.4">
-                                            <div class="os-bar-fill" style="width: 13.4%"></div>
-                                            <div class="os-bar-shimmer"></div>
-                                        </div>
-                                        <div class="os-count">20 devices</div>
-                                    </div>
-                                    <div class="os-percentage">13.4%</div>
-                                </div>
-
-                                <div class="os-chart-item" data-os="macos">
-                                    <div class="os-label">
-                                        <i class="fab fa-apple"></i>
-                                        <span class="os-name">macOS</span>
-                                        <span class="os-version">15.7</span>
-                                    </div>
-                                    <div class="os-bar-container">
-                                        <div class="os-bar" data-percentage="2.0">
-                                            <div class="os-bar-fill" style="width: 2.0%"></div>
-                                            <div class="os-bar-shimmer"></div>
-                                        </div>
-                                        <div class="os-count">3 devices</div>
-                                    </div>
-                                    <div class="os-percentage">2.0%</div>
-                                </div>
-                            </div>
-          </div> 
+            <!-- Horizontal OS Distribution Chart -->
+            <div class="os-horizontal-chart" id="os-distribution-bar-chart">
+              <div class="os-chart-item" data-os="windows10">
+                <div class="os-label">
+                  <i class="fab fa-windows"></i>
+                  <span class="os-name">Windows 10</span>
+                  <span class="os-version">22H2</span>
+                </div>
+                <div class="os-bar-container">
+                  <div class="os-bar" data-percentage="84.6">
+                    <div class="os-bar-fill" style="width: 84.6%"></div>
+                    <div class="os-bar-shimmer"></div>
+                  </div>
+                  <div class="os-count">126 devices</div>
+                </div>
+                <div class="os-percentage">84.6%</div>
+              </div>
+          
+              <div class="os-chart-item" data-os="windows11">
+                <div class="os-label">
+                  <i class="fab fa-windows"></i>
+                  <span class="os-name">Windows 11</span>
+                  <span class="os-version">24H2</span>
+                </div>
+                <div class="os-bar-container">
+                  <div class="os-bar" data-percentage="13.4">
+                    <div class="os-bar-fill" style="width: 13.4%"></div>
+                    <div class="os-bar-shimmer"></div>
+                  </div>
+                  <div class="os-count">20 devices</div>
+                </div>
+                <div class="os-percentage">13.4%</div>
+              </div>
+ 
+              <div class="os-chart-item" data-os="macos">
+                <div class="os-label">
+                  <i class="fab fa-apple"></i>
+                  <span class="os-name">macOS</span>
+                  <span class="os-version">15.7</span>
+                </div>
+                <div class="os-bar-container">
+                  <div class="os-bar" data-percentage="2.0">
+                    <div class="os-bar-fill" style="width: 2.0%"></div>
+                    <div class="os-bar-shimmer"></div>
+                  </div>
+                  <div class="os-count">3 devices</div>
+                </div>
+                <div class="os-percentage">2.0%</div>
+              </div>
+            </div>
+        </div>
 
           <!-- Timeline Metrics -->
           <div class="live-analytics-card timeline-metrics">
@@ -858,7 +858,7 @@
             <!-- Pagination change  -->
 
     Show 
-    <select id="recordsPerPage" >
+    <select id="recordsPerPage">
       <option value="5">5</option>
       <option value="10" selected>10</option>
       <option value="20">20</option>
@@ -869,7 +869,7 @@
     <!-- Pagination change  -->
             <div class="pagination">
               <button id="prevBtn" class="control-btn" onclick="paginatorBackward()">Previous</button>
-              <button id="nextBtn" class="control-btn" onclick="paginatorForward()">Next</button>
+              <button id="nextBtn" class="control-btn" onclick="paginatorForward()">Next </button>
               <!-- <span id="pageInfo"></span> -->
             </div>
             <div>
@@ -917,7 +917,7 @@
                   <th class="sortable" data-sort="installDate">
                     <div class="th-content">
                       <i class="fas fa-calendar"></i>
-                      <span>Install Time</span>
+                      <span>Install Time (min:sec:mil)</span>
                       <i class="fas fa-sort sort-icon"></i>
                     </div>
                   </th>

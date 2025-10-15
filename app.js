@@ -1,8 +1,5 @@
-
-
 // Super Live CrowdStrike EDR Dashboard - Enhanced Interactive JavaScript
 class SuperLiveDashboard {
-
   constructor() {
     this.excelData = null; // Store Excel data directly
     this.dashboardData = null; // Converted dashboard format
@@ -20,13 +17,9 @@ class SuperLiveDashboard {
     const recordsSelect = document.getElementById("#recordsPerPage");
     this.totalDevicesCount = 0;
 
-
     // pagination change
     this.currentPage = 1;
     this.recordsPerPage = 10;
-
-    console.log("Happy Christmas");
-
 
     // Enhanced chart colors for dark theme
     this.chartColors = {
@@ -68,8 +61,7 @@ class SuperLiveDashboard {
     if (this.currentPage > 1) {
       this.currentPage--;
       this.populateDevicesTable();
-      
-   }
+    }
   }
 
   paginatorNxtBtn() {
@@ -85,2186 +77,24 @@ class SuperLiveDashboard {
       this.showLoadingOverlay();
 
       // Load the Excel data JSON
-      const response = await fetch("./dashboard_data.json");
+      // const response = await fetch("./dashboard_data.json");
+      const response = await fetch(
+        "https://api.jsonsilo.com/0d37d25c-00b5-4789-96f6-1eac7bb8e002",
+        {
+          headers: {
+            "X-SILO-KEY": "80fGPhlcMg8qSZdmZy9uE9YKzJqKo2dKW0QvWGkf2n",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // console.log("Merry Christmas", response);
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       this.excelData = await response.json();
-
-      // this.excelData = {
-      //   metadata: {
-      //     source_file:
-      //       "CrowdStrike-EDR-Installation-Status-v1.0-20251007-1.xlsx",
-      //     generated_at: "2025-10-13T05:56:57.661357",
-      //     total_sheets: 5,
-      //     sheet_names: [
-      //       "Device_Inventory",
-      //       "Dashboard_Metrics",
-      //       "OS_Distribution",
-      //       "Status_Breakdown",
-      //       "Risk_Assessment",
-      //     ],
-      //   },
-      //   sheets: {
-      //     Device_Inventory: {
-      //       row_count: 221,
-      //       column_count: 7,
-      //       columns: [
-      //         "Asset Tag",
-      //         "User Name",
-      //         "Operating System",
-      //         "Status",
-      //         "Installation Time",
-      //         "Install Date",
-      //         "Notes",
-      //       ],
-      //       data: [
-      //         {
-      //           "Asset Tag": "LAP 898",
-      //           "User Name": "Panduka Pathirathna",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:31:00",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 895",
-      //           "User Name": "Navindu Vidanagama",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-07:10:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 829",
-      //           "User Name": "Nipuni Kodithuwakku",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:28:97",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 856",
-      //           "User Name": "Ravindu Dilshan",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:32:00 ",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 846",
-      //           "User Name": "Mohamed Minsaf",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:28:13",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 710 ",
-      //           "User Name": "Senerath Alahakon",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:47:23",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 848",
-      //           "User Name": "Kasun Wanniarachchi",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-08:18:44",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 590",
-      //           "User Name": "Indrakumara Sirisena",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-09:38:20",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 876",
-      //           "User Name": "Madusha Weerasinghe",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-10:32:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 781",
-      //           "User Name": "Lahiru Bandara",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 760",
-      //           "User Name": "Hiruni Jayasinghe",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-08:18:44",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 839",
-      //           "User Name": "Suneth Ekanayaka",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:20:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 786",
-      //           "User Name": "Danushka Bandara",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:49:06",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 767",
-      //           "User Name": "Jeema Riyana",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:51:64",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 858",
-      //           "User Name": "Asanka Kumara",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:31:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 778",
-      //           "User Name": "Ishara Jayasinghe",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:02:74",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 889",
-      //           "User Name": "Tharanga Liyanage",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:14:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 901",
-      //           "User Name": "Ayesh Anushanga",
-      //           "Operating System": "macOS",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:32:40",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 795",
-      //           "User Name": "Inusha Udakanjalee",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-13:28:19",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 873",
-      //           "User Name": "Piumi Dinuka",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:31:97\t",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 897",
-      //           "User Name": "Vishmantha Poramba Badalge",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:05:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 680",
-      //           "User Name": "Sachith Kaushalya",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:41:87",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 675",
-      //           "User Name": "Ravindu Chinthaka",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:09:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 859",
-      //           "User Name": "Muhannadh Razick",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:27:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 793",
-      //           "User Name": "Tharindu Kumara",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:20:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 729",
-      //           "User Name": "Gayalan Kishor",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:08:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 866",
-      //           "User Name": "Jathishwarya Venugopalavanit",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:25:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 661",
-      //           "User Name": "Piyumitha Nirman",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:41:79",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 893",
-      //           "User Name": "Isara Tillekeratne",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:39:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 029",
-      //           "User Name": "Kanishka Perera",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:07:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 863",
-      //           "User Name": "Supun Adikari",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": " 03:13:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 833",
-      //           "User Name": "Tharindu disanayaka",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": " 04:35:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 640",
-      //           "User Name": "Imesh Fernando",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:41:87",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 685",
-      //           "User Name": "Varuni Punchihewa",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-08:27:03",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 782",
-      //           "User Name": "Rashan Udayanka",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:48:09",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 882",
-      //           "User Name": "Maheshika Wickramasinghe",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-10:45:33",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 687",
-      //           "User Name": "Induwara Rupasinghe",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:43:50",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 738",
-      //           "User Name": "Supuni Wijerathne",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-07:56:18",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 699",
-      //           "User Name": "Emindu Perera",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:18:44",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 892",
-      //           "User Name": "Anuradhal",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:07:64",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 894",
-      //           "User Name": "Wathmi Thennakoon",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:46:86",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 853",
-      //           "User Name": "Masha Pupulewatte",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:28:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 742",
-      //           "User Name": "Janudha Gunawardena",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:56:52",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 908",
-      //           "User Name": "Jayalal Kahandawa",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:59:31",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 716",
-      //           "User Name": "Malidu Jayasundara",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:50:74",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 593",
-      //           "User Name": "Jayamal Gunawardhana",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:51:63",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 635",
-      //           "User Name": "Dushantha Mathes",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:51:89",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 727",
-      //           "User Name": "Priyanke Wijesekara",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-07:08:19",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 747",
-      //           "User Name": "Ahmed Shafraz",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:53:30",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 682",
-      //           "User Name": "Shakya Wanigarathna",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:40:53",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 641",
-      //           "User Name": "Dulanka Karunasena",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:26:51",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 840",
-      //           "User Name": "Dasun Manathunga",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:23:54",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 880",
-      //           "User Name": "Hirumi Kodithuwakku",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:09:44",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 877",
-      //           "User Name": "Chathushag",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:27:55",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 579",
-      //           "User Name": "Kusal Kahaduwa",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:28:59",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 806",
-      //           "User Name": "Geeth Tharanga",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:23:54",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 548",
-      //           "User Name": "Yasiru Pathirana",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-11:08:17",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 705",
-      //           "User Name": "Vimukthi Mayadunne",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:25:44",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 684",
-      //           "User Name": "Thilina Jayamini",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:59:12",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 841",
-      //           "User Name": "Yasas Sandeepa",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:49:02",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 888",
-      //           "User Name": "Mohommad Shamil",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:59:12",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 852",
-      //           "User Name": "Osura Hettiarachchi",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-20:02:25",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 902",
-      //           "User Name": "Osura Hettiarachchi",
-      //           "Operating System": "macOS",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:00:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 899 ",
-      //           "User Name": "Shanupa Liyanaarachchi",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-07:27:03",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 664",
-      //           "User Name": "Geethika Kalhari",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:17:26",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 891",
-      //           "User Name": "Devindi Jayathilaka",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:03:42",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 886",
-      //           "User Name": "Sumeera Liyanage",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:56:03",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 855",
-      //           "User Name": "Thushan Lakshitha",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-09:24:10",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 804",
-      //           "User Name": "Lalinda Udurawana",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:37:11",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 752",
-      //           "User Name": "Raveesha Fernando",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-02:24:52",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 854",
-      //           "User Name": "Yasara Jayadinee",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-02:45:03",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 810",
-      //           "User Name": "Kalana Gunathilaka",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:49:39",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 865",
-      //           "User Name": "Sajeepan Srithararasan",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:15:57",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 861",
-      //           "User Name": "Diwanga Amasith",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:44:10",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 835",
-      //           "User Name": "Janindu Ranaweera",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:36:52",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 733",
-      //           "User Name": "Hashini Siriwardhane",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-07:41:33",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 845",
-      //           "User Name": "Lakshan Chathuranga",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:52:11",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 887",
-      //           "User Name": "Ashfa Assath",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:09:21",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 751",
-      //           "User Name": "Hiruni Kuruppu",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 857",
-      //           "User Name": "Upeksha Udayaratne",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:14:58",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 805",
-      //           "User Name": "yesitha",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:21:13",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 487",
-      //           "User Name": "Danusha Navod",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:54:10",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 881",
-      //           "User Name": "Kavindu Rathnasekara",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:28:50",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 885",
-      //           "User Name": "Achala Fernando",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:07:26",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 851",
-      //           "User Name": "Sanduni Hansika",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:18:05",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 788",
-      //           "User Name": "Shamila De Silva",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-08:08:17",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 906",
-      //           "User Name": "Viduranga Randila ",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 726",
-      //           "User Name": "Satheeq Hassan",
-      //           "Operating System": "macOS",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:41:20",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 872",
-      //           "User Name": "Punsiru Alwis",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Pending",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 551",
-      //           "User Name": "Chathuranga Mohottala",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 609 ",
-      //           "User Name": "Chathuranga Mohottala",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 875",
-      //           "User Name": "Suranga Caldera",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 741",
-      //           "User Name": "Wathsala Wijekoon",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Pending",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 867",
-      //           "User Name": "Sajith Perera",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 811",
-      //           "User Name": "Adeesha Peiris",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 832",
-      //           "User Name": "Fahim Feroz",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 746",
-      //           "User Name": "Anolie Kumarasinghe",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:44:10",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 850",
-      //           "User Name": "Chilanka Halpage",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 557",
-      //           "User Name": "Yohan Ranasinghe",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 799",
-      //           "User Name": "Pathumi Tharuka",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-06:57:29",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 674",
-      //           "User Name": "Mohomed Rimnaz",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 779",
-      //           "User Name": "Chanaka De Silva",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 731",
-      //           "User Name": "Menuka Perera ",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 787",
-      //           "User Name": "Isuru Sampath",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 860",
-      //           "User Name": "Gayan Gunarathne",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 884",
-      //           "User Name": "Prageeth Wimalarathna",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "- 09:00:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": null,
-      //           "User Name": null,
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: null,
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 016",
-      //           "User Name": "Nikini Panagoda",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-10-02T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 665",
-      //           "User Name": "Jeyakumar Manoj",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-10-02T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 059",
-      //           "User Name": "Hasantha Pathirana",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 052",
-      //           "User Name": "Kalana Abeysiriwardhana",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "- 04:18:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 871",
-      //           "User Name": "Sanjeeva Samarawira",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "- 02:40:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 050",
-      //           "User Name": "Hasala Vithanage",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "- 03:15:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 037",
-      //           "User Name": "Isuru Senanayake",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "- 03:17:00",
-      //           "Install Date": "2025-10-03T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 039",
-      //           "User Name": "Naflan Thowfeek",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:06:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 023",
-      //           "User Name": "Hansika Sadaruwani",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 757",
-      //           "User Name": "Shanika Perera",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-07-01T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 808",
-      //           "User Name": "Hasitha Edirisinghe",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "- 02:47:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 724",
-      //           "User Name": "Prageeth Liyanage",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "- 02:55:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 803",
-      //           "User Name": "Champaka Dammage",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:03:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 643",
-      //           "User Name": "Ridmi Pinsirini",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "- 04:19:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 547",
-      //           "User Name": "Gayan Ranaweera",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 063",
-      //           "User Name": "Kakulu Witharanage",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:44:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 033",
-      //           "User Name": "Pubudu Perera",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:13:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 028",
-      //           "User Name": "Manulya Egodapitiya",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:44:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 077",
-      //           "User Name": "Vimarsha Vithanage",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:37:00",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 040 ",
-      //           "User Name": "Vinuka Navod",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:32:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 027",
-      //           "User Name": "Rashmika Samarasinghe",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-02:10:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 037",
-      //           "User Name": "Isuru Senanayake",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 047",
-      //           "User Name": "Dinith Gunasekara",
-      //           "Operating System": "Windows 11",
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Activation Key Issue",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 031",
-      //           "User Name": "Chamika Samarawickrama",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:41:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 019 ",
-      //           "User Name": "Asanka Dilruk",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:08:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 073",
-      //           "User Name": "Anjana Gamage",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 049",
-      //           "User Name": "Ravindu Chathuranga",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-21:10:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 739 ",
-      //           "User Name": "Shanuka Hettiarachchi",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-14:53:00",
-      //           "Install Date": "2025-10-07T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 847",
-      //           "User Name": "Hansaja Sandeepa",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:44:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 776",
-      //           "User Name": "Thanish Ahamed",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-07-01T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 824",
-      //           "User Name": "Udana Wijesuriya",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 740",
-      //           "User Name": "Lasith Jayasinghe",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 783",
-      //           "User Name": "Ruvindu Madushanka",
-      //           "Operating System": "Windows 11",
-      //           Status: null,
-      //           "Installation Time": "-03:34:00",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 771",
-      //           "User Name": "Govindhasamy Suganthini",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-07-01T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 749",
-      //           "User Name": "Sewmi Punsara",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-07-01T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 802",
-      //           "User Name": "Chamishka Dissanayake",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:13:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 819",
-      //           "User Name": "Ruchira Sandaruwan",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:31:00",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 800",
-      //           "User Name": "Sanka Dinesh",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Onsite",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 821",
-      //           "User Name": "Gimhan Priyantha",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:38:00",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": null,
-      //           "User Name": "Mithila Chathuranga",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 790",
-      //           "User Name": "Gimhani Rubasinghe",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Onsite",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 513",
-      //           "User Name": "Dineth Tharushan",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Onsite",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 660",
-      //           "User Name": "Omaya Wickramasinghe",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 758",
-      //           "User Name": "Manchulani Sivendrakalanithy",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 053",
-      //           "User Name": "Ovindu Nambukara",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 883",
-      //           "User Name": "Nayanathara Sri Ahangama",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-02:56:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 605",
-      //           "User Name": "Asanka Amarasinghe",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 571",
-      //           "User Name": "Himashini Wimalasundera",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 565",
-      //           "User Name": "Yasan Madhuranga",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 603",
-      //           "User Name": "Madhusanka Perera",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 504",
-      //           "User Name": "Yadeesha Karunathilake",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-23:25:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 604",
-      //           "User Name": "Ishara Sandeepanie",
-      //           "Operating System": null,
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-05-30T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 673",
-      //           "User Name": "Poshitha Miguntanna",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Onsite",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 857",
-      //           "User Name": "Upeksha Udayarathne",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:51:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP O32",
-      //           "User Name": "Hashan lqbal",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-08:16:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 080",
-      //           "User Name": "Adeesha Thenuwara ",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 874",
-      //           "User Name": "Supun Ramanayaka",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 807",
-      //           "User Name": "Palinda Megasooriya",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:00:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 014",
-      //           "User Name": "Sayuru Disanayake",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:14:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 706",
-      //           "User Name": "Niroshan Rathnayeka",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 869",
-      //           "User Name": "Raza Shah",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:35:00",
-      //           "Install Date": "2025-10-08T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 064",
-      //           "User Name": "Navidu Roshika",
-      //           "Operating System": "Windows 10",
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Kaspreskey Issue",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 764",
-      //           "User Name": "Jeewanthi Abeyarathne",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-20:42:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 773",
-      //           "User Name": "Lahiru Karunarathne",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-25:17:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 730",
-      //           "User Name": "Tharindu Gunathilaka",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-20:00:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 583",
-      //           "User Name": "Nishara Kavindi",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-20:50:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 736",
-      //           "User Name": "Shalani Athukorala",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-19:46:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 074",
-      //           "User Name": "Supun Chamara",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:08:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 679",
-      //           "User Name": "Mithila De Silva",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Kaspreskey Issue",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 656",
-      //           "User Name": "Pansilu Nilaweera",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Onsite",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 655",
-      //           "User Name": "Chamika Perera",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:47:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 697",
-      //           "User Name": "Mathisha Wanigasinghe",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Onsite",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 703",
-      //           "User Name": "Pradeep Kumara",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 715",
-      //           "User Name": "Nalaka Sandaruwan",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 719",
-      //           "User Name": "Charitha Rathnayaka",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 718",
-      //           "User Name": "Kalana Hewabatuwita",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 723",
-      //           "User Name": "Dinesh Mayura Bandara",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 069",
-      //           "User Name": "Udana Kodikara",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-08:54:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 845",
-      //           "User Name": "Lakshan Chathuranga",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-02:48:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 484",
-      //           "User Name": "Udara dharmadasa",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-20:13:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 062",
-      //           "User Name": "Tharushi Hindakaraldeniya",
-      //           "Operating System": "Windows 10",
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "Kaspreskey Issue",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 071",
-      //           "User Name": "Sharanga De Alwis",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:14:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 785",
-      //           "User Name": "Nimmi Senanayake",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:53:00",
-      //           "Install Date": "2025-10-09T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 018",
-      //           "User Name": "Isuru Dissanayake",
-      //           "Operating System": "Windows 11",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:21:00",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 065",
-      //           "User Name": "Damith Atharagalla",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 015",
-      //           "User Name": "Jeewaka Manohara",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 611",
-      //           "User Name": "Mohamed Ramsan",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 868",
-      //           "User Name": "Chamath Amarasuriya",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 756",
-      //           "User Name": "Achintha Dissanayaka",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-05:13:00",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Onsite",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 766",
-      //           "User Name": "Jayathi Yasara Ransisi",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 759",
-      //           "User Name": "Sajith Madhusankha",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 784",
-      //           "User Name": "Ruwan Siriwardena",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 777",
-      //           "User Name": "Lakshitha Perera",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": null,
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 789",
-      //           "User Name": "Tinali Gunasekara",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-04:47:00",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 793",
-      //           "User Name": "Sasindu Prasad",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 797",
-      //           "User Name": "Thisara Pannala",
-      //           "Operating System": "Windows 10",
-      //           Status: "Installed",
-      //           "Installation Time": "-03:51:00",
-      //           "Install Date": "2025-10-10T00:00:00",
-      //           Notes: "Done",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 801",
-      //           "User Name": "Deshan Balasuriya",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 809",
-      //           "User Name": "Sahan Kariyawasam",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 814",
-      //           "User Name": "Udayanga Amarathunga",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 820",
-      //           "User Name": "Binuka Kamesh",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 826",
-      //           "User Name": "Sandun Pathirana",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 827",
-      //           "User Name": "Kaveenda Navodyanga",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 828",
-      //           "User Name": "Ravindu Maginaarachchi",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 870",
-      //           "User Name": "Lakshan Mihiranga",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 695",
-      //           "User Name": "Shehani Silva",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 837",
-      //           "User Name": "Hashini Kaushalya",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 843",
-      //           "User Name": "Kasun Gamage",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 844",
-      //           "User Name": "Ishani Perera",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "LAP 816",
-      //           "User Name": "Madushan Sandaruwan",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 038",
-      //           "User Name": "Keshan Sankalpa",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 059",
-      //           "User Name": "Hasantha Pathirana",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 014",
-      //           "User Name": "Sayuru Dissanayake",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 044",
-      //           "User Name": "Darshana Fernando",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //         {
-      //           "Asset Tag": "TAPRO LAP 012",
-      //           "User Name": "Kumudu Weerasinghe",
-      //           "Operating System": null,
-      //           Status: null,
-      //           "Installation Time": null,
-      //           "Install Date": null,
-      //           Notes: "No Response",
-      //         },
-      //       ],
-      //     },
-      //     Dashboard_Metrics: {
-      //       row_count: 16,
-      //       column_count: 2,
-      //       columns: ["Metric", "Value"],
-      //       data: [
-      //         {
-      //           Metric: "Total Assets",
-      //           Value: "220",
-      //         },
-      //         {
-      //           Metric: "Installed",
-      //           Value: "146",
-      //         },
-      //         {
-      //           Metric: "No Response",
-      //           Value: "61",
-      //         },
-      //         {
-      //           Metric: "Issues",
-      //           Value: "4",
-      //         },
-      //         {
-      //           Metric: "Completed",
-      //           Value: "146",
-      //         },
-      //         {
-      //           Metric: "Protected",
-      //           Value: "146",
-      //         },
-      //         {
-      //           Metric: "Remaining",
-      //           Value: "74",
-      //         },
-      //         {
-      //           Metric: "Start Date",
-      //           Value: "2025-10-02T00:00:00",
-      //         },
-      //         {
-      //           Metric: "Days Active",
-      //           Value: "11",
-      //         },
-      //         {
-      //           Metric: "Last Install",
-      //           Value: "2025-10-10T00:00:00",
-      //         },
-      //         {
-      //           Metric: "Success Rate",
-      //           Percentage: "66",
-      //         },
-      //         {
-      //           Metric: "Response Rate",
-      //           Percentage: "72",
-      //         },
-      //         {
-      //           Metric: "Issue Rate",
-      //           Percentage: "2",
-      //         },
-      //         {
-      //           Metric: "Pending Rate",
-      //           Percentage: "34",
-      //         },
-      //         {
-      //           Metric: "Completion Rate",
-      //           Percentage: "66",
-      //         },
-      //         {
-      //           Metric: "Avg Per Day",
-      //           Value: "27",
-      //         },
-      //       ],
-      //     },
-      //     OS_Distribution: {
-      //       row_count: 3,
-      //       column_count: 3,
-      //       columns: ["Operating System", "Count", "Percentage"],
-      //       data: [
-      //         {
-      //           "Operating System": "Windows 11",
-      //           Count: "126",
-      //           Percentage: "85",
-      //         },
-      //         {
-      //           "Operating System": "Windows 10",
-      //           Count: "20",
-      //           Percentage: "13",
-      //         },
-      //         {
-      //           "Operating System": "macOS",
-      //           Count: "3",
-      //           Percentage: "2",
-      //         },
-      //       ],
-      //     },
-      //     Status_Breakdown: {
-      //       row_count: 5,
-      //       column_count: 4,
-      //       columns: ["Status Category", "Count", "Percentage", "Notes"],
-      //       data: [
-      //         {
-      //           "Status Category": "Installed",
-      //           Count: "146",
-      //           Percentage: "66",
-      //           Notes: "Successfully deployed",
-      //         },
-      //         {
-      //           "Status Category": "Completed",
-      //           Count: "146",
-      //           Percentage: "66",
-      //           Notes: "Fully operational",
-      //         },
-      //         {
-      //           "Status Category": "No Response",
-      //           Count: "61",
-      //           Percentage: "28",
-      //           Notes: "Awaiting user action",
-      //         },
-      //         {
-      //           "Status Category": "Issues",
-      //           Count: "4",
-      //           Percentage: "2",
-      //           Notes: "Requires attention",
-      //         },
-      //         {
-      //           "Status Category": "Remaining",
-      //           Count: "74",
-      //           Percentage: "34",
-      //           Notes: "Not yet deployed",
-      //         },
-      //       ],
-      //     },
-      //     Risk_Assessment: {
-      //       row_count: 3,
-      //       column_count: 3,
-      //       columns: ["Risk Level", "Status", "Description"],
-      //       data: [
-      //         {
-      //           "Risk Level": "High Risk",
-      //           Status: null,
-      //           Description: "No critical risks identified",
-      //         },
-      //         {
-      //           "Risk Level": "Medium Risk",
-      //           Status: "Active",
-      //           Description:
-      //             "Delayed completion may impact compliance requirements and organizational security posture. Current deployment leaves significant coverage gaps.",
-      //         },
-      //         {
-      //           "Risk Level": "Mitigation Strategy",
-      //           Status: "In Progress",
-      //           Description:
-      //             "Enhanced network monitoring activated for unprotected devices. Priority escalation for manual installations scheduled within 7 days to minimize exposure window.",
-      //         },
-      //       ],
-      //     },
-      //   },
-      // };
 
       // Convert Excel data to dashboard format
       this.dashboardData = this.convertExcelToDashboardFormat();
@@ -2288,14 +118,16 @@ class SuperLiveDashboard {
 
   // Convert Excel sheets to dashboard format
   convertExcelToDashboardFormat() {
-    if (!this.excelData || !this.excelData.sheets) {
+    if (!this.excelData) {
+      console.log("this executes");
       return this.getEmptyDashboardFormat();
     }
 
-    const sheets = this.excelData.sheets;
+    // const sheets = this.excelData.sheets;
+    const sheets = this.excelData;
 
     // Get metrics from Dashboard_Metrics sheet
-    const metricsData = sheets.Dashboard_Metrics?.data || [];
+    const metricsData = sheets.Dashboard_Metrics || [];
     const metrics = {};
     metricsData.forEach((item) => {
       const key = item.Metric?.toLowerCase().replace(/\s+/g, "");
@@ -2303,7 +135,7 @@ class SuperLiveDashboard {
     });
 
     // Get OS distribution
-    const osData = sheets.OS_Distribution?.data || [];
+    const osData = sheets.OS_Distribution || [];
     const osDistribution = osData.map((item) => ({
       name: item["Operating System"] || "Unknown",
       value: parseInt(item.Count) || 0,
@@ -2313,7 +145,7 @@ class SuperLiveDashboard {
     }));
 
     // Get status breakdown
-    const statusData = sheets.Status_Breakdown?.data || [];
+    const statusData = sheets.Status_Breakdown || [];
     const statusBreakdown = {};
     statusData.forEach((item) => {
       const key =
@@ -2322,7 +154,7 @@ class SuperLiveDashboard {
     });
 
     // Get device inventory - CRITICAL SECTION
-    const deviceData = sheets.Device_Inventory?.data || [];
+    const deviceData = sheets.Device_Inventory || [];
     const recentDevices = deviceData
       .filter((device) => device && device.Status === "Installed")
       .slice(0, 10)
@@ -2337,7 +169,7 @@ class SuperLiveDashboard {
       }));
 
     // Get insights from Risk Assessment
-    const riskData = sheets.Risk_Assessment?.data || [];
+    const riskData = sheets.Risk_Assessment || [];
     const insights = riskData.map((item) => ({
       type: item["Risk Level"]?.includes("High")
         ? "critical"
@@ -2445,8 +277,10 @@ class SuperLiveDashboard {
     if (!tableBody) return;
 
     // Get device inventory from Excel data --> Pagination Change
+    // const deviceDataMain = this.dashboardData?.rawWorksheets?.Device_Inventory?.data || [];
     const deviceDataMain =
-      this.dashboardData?.rawWorksheets?.Device_Inventory?.data || [];
+      this.dashboardData?.rawWorksheets?.Device_Inventory || [];
+    // console.log("Merry Christmas2", this.dashboardData);
 
     // Update device count
     if (deviceCountElement) {
@@ -2478,7 +312,9 @@ class SuperLiveDashboard {
     const deviceData = deviceDataMain.slice(start, end);
 
     // console.log("Debug 2", start, end);
-    this.pageInfo.textContent = `Page ${this.currentPage} of ${Math.ceil(this.totalDevicesCount / this.recordsPerPage)}`;
+    this.pageInfo.textContent = `Page ${this.currentPage} of ${Math.ceil(
+      this.totalDevicesCount / this.recordsPerPage
+    )}`;
 
     // Populate table with device data
     deviceData.forEach((device, index) => {
@@ -2554,7 +390,9 @@ class SuperLiveDashboard {
             <span class="user-inline">
               <i class="fab ${this.getOSIcon(device["Operating System"])}"></i>
             
-              <span class="os-name">${device["Operating System"] || "Unknown"}</span>
+              <span class="os-name">${
+                device["Operating System"] || "Unknown"
+              }</span>
             </span>
           
         </td>
@@ -2578,7 +416,6 @@ class SuperLiveDashboard {
     // Add click handlers for device actions
     this.addDeviceActionHandlers();
   }
-
 
   // Get appropriate OS icon class
   getOSIcon(os) {
@@ -2867,12 +704,184 @@ class SuperLiveDashboard {
         this.updateProgressCards(),
         this.updateStatsCards(),
         this.populateDevicesTable(),
+        this.updateAnalytics(),
         this.renderOSChart(),
         this.updateInsights(),
       ]);
     } catch (error) {
       console.error("Error updating dashboard:", error);
     }
+  }
+
+  updateAnalytics() {
+    document.getElementById("os_distribution_analytics").innerHTML = `
+    <div class="os-stat-item windows11">
+                <div class="os-icon-wrapper">
+                  <i class="fab fa-windows"></i>
+                  <div class="version-badge">10</div>
+                </div>
+                <div class="os-info">
+                  <!-- <div class="os-count" data-target="59">0</div> -->
+                  <div class="os-name">${this.dashboardData.osDistribution[0].name}</div>
+                  <div class="os-details">
+                    <span class="percentage">${this.dashboardData.osDistribution[0].percentage}%</span>
+                    <span class="version">${this.dashboardData.osDistribution[0].version}</span>
+                  </div>
+                </div>
+                <div class="os-progress-ring">
+                  <svg width="60" height="60">
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="rgba(59, 130, 246, 0.2)"
+                      stroke-width="4"
+                      fill="none"
+                    />
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="#3b82f6"
+                      stroke-width="4"
+                      fill="none"
+                      stroke-dasharray="157.08"
+                      stroke-dashoffset="12.25"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <div class="ring-percentage">${this.dashboardData.osDistribution[0].percentage}%</div>
+                </div>
+              </div>
+
+              <div class="os-stat-item windows10">
+                <div class="os-icon-wrapper">
+                  <i class="fab fa-windows"></i>
+                  <div class="version-badge">11</div>
+                </div>
+                <div class="os-info">
+                  <!-- <div class="os-count" data-target="4">0</div> -->
+                  <div class="os-name">${this.dashboardData.osDistribution[1].name}</div>
+                  <div class="os-details">
+                    <span class="percentage">${this.dashboardData.osDistribution[1].percentage}%</span>
+                    <span class="version">${this.dashboardData.osDistribution[1].version}</span>
+                  </div>
+                </div>
+                <div class="os-progress-ring">
+                  <svg width="60" height="60">
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="rgba(245, 158, 11, 0.2)"
+                      stroke-width="4"
+                      fill="none"
+                    />
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="#f59e0b"
+                      stroke-width="4"
+                      fill="none"
+                      stroke-dasharray="157.08"
+                      stroke-dashoffset="147.34"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <div class="ring-percentage">${this.dashboardData.osDistribution[1].percentage}%</div>
+                </div>
+              </div>
+
+              <div class="os-stat-item macos">
+                <div class="os-icon-wrapper">
+                  <i class="fab fa-apple"></i>
+                  <div class="version-badge">14</div>
+                </div>
+                <div class="os-info">
+                  <!-- <div class="os-count" data-target="1">0</div> -->
+                  <div class="os-name">${this.dashboardData.osDistribution[2].name}</div>
+                  <div class="os-details">
+                    <span class="percentage">${this.dashboardData.osDistribution[2].percentage}%</span>
+                    <span class="version">${this.dashboardData.osDistribution[2].version}</span>
+                  </div>
+                </div>
+                <div class="os-progress-ring">
+                  <svg width="60" height="60">
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="rgba(148, 163, 184, 0.2)"
+                      stroke-width="4"
+                      fill="none"
+                    />
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="#94a3b8"
+                      stroke-width="4"
+                      fill="none"
+                      stroke-dasharray="157.08"
+                      stroke-dashoffset="154.57"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <div class="ring-percentage">${this.dashboardData.osDistribution[2].percentage}%</div>
+                </div>
+              </div>
+    `;
+
+    document.getElementById("os-distribution-bar-chart").innerHTML = `
+    <div class="os-chart-item" data-os="windows11">
+                <div class="os-label">
+                  <i class="fab fa-windows"></i>
+                  <span class="os-name">${this.dashboardData.osDistribution[0].name}</span>
+                  <span class="os-version">${this.dashboardData.osDistribution[0].version}</span>
+                </div>
+                <div class="os-bar-container">
+                  <div class="os-bar" data-percentage="84.6">
+                    <div class="os-bar-fill" style="width: 84.6%"></div>
+                    <div class="os-bar-shimmer"></div>
+                  </div>
+                  <div class="os-count">${this.dashboardData.osDistribution[0].value} devices</div>
+                </div>
+                <div class="os-percentage">${this.dashboardData.osDistribution[0].percentage}%</div>
+              </div>
+          
+              <div class="os-chart-item" data-os="windows10">
+                <div class="os-label">
+                  <i class="fab fa-windows"></i>
+                  <span class="os-name">${this.dashboardData.osDistribution[1].name}</span>
+                  <span class="os-version">${this.dashboardData.osDistribution[1].version}</span>
+                </div>
+                <div class="os-bar-container">
+                  <div class="os-bar" data-percentage="13.4">
+                    <div class="os-bar-fill" style="width: 13.4%"></div>
+                    <div class="os-bar-shimmer"></div>
+                  </div>
+                  <div class="os-count">${this.dashboardData.osDistribution[1].value} devices</div>
+                </div>
+                <div class="os-percentage">${this.dashboardData.osDistribution[1].percentage}%</div>
+              </div>
+ 
+              <div class="os-chart-item" data-os="macos">
+                <div class="os-label">
+                  <i class="fab fa-apple"></i>
+                  <span class="os-name">${this.dashboardData.osDistribution[2].name}</span>
+                  <span class="os-version">${this.dashboardData.osDistribution[2].version}</span>
+                </div>
+                <div class="os-bar-container">
+                  <div class="os-bar" data-percentage="2.0">
+                    <div class="os-bar-fill" style="width: 2.0%"></div>
+                    <div class="os-bar-shimmer"></div>
+                  </div>
+                  <div class="os-count">${this.dashboardData.osDistribution[2].value} devices</div>
+                </div>
+                <div class="os-percentage">${this.dashboardData.osDistribution[2].percentage}%</div>
+              </div>
+    `;
   }
 
   // Update KPI cards with Excel metrics
@@ -3170,9 +1179,6 @@ class SuperLiveDashboard {
       3000
     );
   }
-
-
-
 } //end of the class
 
 // Initialize dashboard when DOM is loaded
@@ -3203,7 +1209,7 @@ function paginatorBackward() {
 }
 
 const paginatorBtn = document.getElementById("recordsPerPage");
-paginatorBtn.addEventListener("change", e => {
-  window.dashboard.setPaginatorElements(1,e.target.value)
+paginatorBtn.addEventListener("change", (e) => {
+  window.dashboard.setPaginatorElements(1, e.target.value);
   window.dashboard.populateDevicesTable();
-})
+});
