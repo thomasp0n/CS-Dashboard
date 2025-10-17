@@ -1,717 +1,1084 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrowdStrike EDR Dashboard - Maintenance</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🛠️</text></svg>">
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 14px;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #0a0f1c 0%, #1e293b 50%, #334155 100%);
-            color: #f8fafc;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Particle Background */
-        .particle-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #60a5fa, transparent);
-            border-radius: 50%;
-            animation: float 8s infinite ease-in-out;
-            opacity: 0.3;
-        }
-
-        .particle:nth-child(1) {
-            top: 20%;
-            left: 20%;
-            animation-delay: 0s;
-            animation-duration: 8s;
-        }
-
-        .particle:nth-child(2) {
-            top: 80%;
-            left: 80%;
-            animation-delay: 2s;
-            animation-duration: 10s;
-        }
-
-        .particle:nth-child(3) {
-            top: 40%;
-            left: 60%;
-            animation-delay: 4s;
-            animation-duration: 12s;
-        }
-
-        .particle:nth-child(4) {
-            top: 60%;
-            left: 10%;
-            animation-delay: 1s;
-            animation-duration: 9s;
-        }
-
-        .particle:nth-child(5) {
-            top: 10%;
-            left: 70%;
-            animation-delay: 3s;
-            animation-duration: 11s;
-        }
-
-        .particle:nth-child(6) {
-            top: 90%;
-            left: 30%;
-            animation-delay: 5s;
-            animation-duration: 7s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-                opacity: 0.3;
-            }
-            50% {
-                transform: translateY(-20px) rotate(180deg);
-                opacity: 0.7;
-            }
-        }
-
-        /* Enhanced Background Effects */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 50%);
-            z-index: -2;
-            animation: backgroundPulse 20s ease-in-out infinite alternate;
-        }
-
-        @keyframes backgroundPulse {
-            0% {
-                opacity: 0.5;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0.8;
-                transform: scale(1.05);
-            }
-        }
-
-        /* Maintenance Container */
-        .maintenance-container {
-            max-width: 800px;
-            width: 90%;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Logo Section */
-        .logo-section {
-            margin-bottom: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1.5rem;
-        }
-
-        .logo-wrapper {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-pulse-ring {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border: 2px solid #3b82f6;
-            border-radius: 50%;
-            opacity: 0;
-            animation: pulse-ring 2s infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% {
-                transform: scale(0.8);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.4);
-                opacity: 0;
-            }
-        }
-
-        .logo-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-            position: relative;
-            z-index: 1;
-            transition: all 0.3s ease;
-        }
-
-        .logo-icon:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 25px 50px rgba(15, 23, 42, 0.6);
-        }
-
-        .logo-icon i {
-            font-size: 32px;
-            color: white;
-        }
-
-        .brand-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #f8fafc 0%, #60a5fa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Main Card */
-        .maintenance-card {
-            background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(148, 163, 184, 0.15);
-            border-radius: 2rem;
-            padding: 4rem 3rem;
-            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.37);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .maintenance-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(15, 23, 42, 0.6);
-            border-color: rgba(148, 163, 184, 0.3);
-        }
-
-        .maintenance-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            border-radius: 2rem 2rem 0 0;
-        }
-
-        /* Icon Container */
-        .maintenance-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 2rem;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%);
-            border: 2px solid #3b82f6;
-            border-radius: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            animation: iconPulse 2s infinite;
-        }
-
-        @keyframes iconPulse {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-            }
-            50% {
-                transform: scale(1.05);
-                box-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
-            }
-        }
-
-        .maintenance-icon i {
-            font-size: 60px;
-            color: #3b82f6;
-            animation: rotate 3s linear infinite;
-        }
-
-        @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Title and Text */
-        .maintenance-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #f8fafc;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .maintenance-subtitle {
-            font-size: 1.2rem;
-            color: #cbd5e1;
-            margin-bottom: 2rem;
-            font-weight: 500;
-        }
-
-        .maintenance-description {
-            font-size: 1rem;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Status Badge */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(245, 158, 11, 0.2);
-            border: 1px solid #fbbf24;
-            border-radius: 9999px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #fbbf24;
-            margin-bottom: 2rem;
-            animation: livePulse 2s infinite;
-        }
-
-        @keyframes livePulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
-            }
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #fbbf24;
-            animation: dotPulse 2s infinite;
-        }
-
-        @keyframes dotPulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.3;
-            }
-        }
-
-        /* Progress Section */
-        .progress-section {
-            margin: 3rem 0;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .progress-label {
-            font-size: 0.9rem;
-            color: #cbd5e1;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .progress-bar-container {
-            height: 8px;
-            background: rgba(148, 163, 184, 0.2);
-            border-radius: 9999px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-            border-radius: 9999px;
-            position: relative;
-            animation: progressAnimation 2s ease-in-out infinite;
-        }
-
-        @keyframes progressAnimation {
-            0%, 100% {
-                width: 30%;
-            }
-            50% {
-                width: 70%;
-            }
-        }
-
-        .progress-shimmer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        /* Info Grid */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .info-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(59, 130, 246, 0.3);
-            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
-        }
-
-        .info-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%);
-            border: 1px solid #3b82f6;
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            color: #3b82f6;
-            font-size: 1.2rem;
-        }
-
-        .info-title {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .info-value {
-            font-size: 1.2rem;
-            color: #f8fafc;
-            font-weight: 700;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            margin-top: 3rem;
-            padding-top: 3rem;
-            border-top: 1px solid rgba(148, 163, 184, 0.15);
-        }
-
-        .contact-title {
-            font-size: 1rem;
-            color: #cbd5e1;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .contact-links {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.75rem;
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .contact-link:hover {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            border-color: #3b82f6;
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-        }
-
-        .contact-link i {
-            font-size: 1rem;
-        }
-
-        /* Footer */
-        .maintenance-footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(148, 163, 184, 0.15);
-            color: #64748b;
-            font-size: 0.85rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .maintenance-card {
-                padding: 3rem 2rem;
-            }
-
-            .maintenance-title {
-                font-size: 2rem;
-            }
-
-            .maintenance-subtitle {
-                font-size: 1rem;
-            }
-
-            .logo-section {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-links {
-                flex-direction: column;
-            }
-        }
-
-        /* Animation on Load */
-        .fade-in {
-            opacity: 0;
-            animation: fadeIn 1s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .slide-up {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease forwards;
-        }
-
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CrowdStrike EDR Dashboard - Super Live Interactive</title>
+    <link
+      rel="stylesheet"
+      href="style.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🛡️</text></svg>"
+    />
+  </head>
+
+  <body>
     <!-- Interactive Particle Background -->
     <div class="particle-background">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
     </div>
 
-    <div class="maintenance-container">
-        <!-- Logo Section -->
-        <div class="logo-section fade-in">
-            <div class="logo-wrapper">
-                <div class="logo-pulse-ring"></div>
-                <div class="logo-icon">
-                    <i class="fas fa-shield-virus"></i>
-                </div>
+    <div class="dashboard-container">
+      <!-- Live Interactive Header -->
+      <header class="live-dashboard-header">
+        <div class="header-grid">
+          <div class="logo-section">
+            <div class="live-logo-wrapper">
+              <div class="logo-pulse-ring"></div>
+              <div class="logo-icon">
+                <i class="fas fa-shield-virus"></i>
+              </div>
             </div>
-            <h1 class="brand-title">CrowdStrike EDR
-            </h1>
-            <p class="subtitle">DirectFN - Real-time Deployment Monitoring</p>
+            <div class="title-section">
+              <h1 class="live-title">
+                <span class="typing-effect">CrowdStrike EDR</span>
+                <div class="live-badge">
+                  <i class="fas fa-satellite-dish"></i>
+                  LIVE
+                </div>
+              </h1>
+              <p class="subtitle">DirectFN - Real-time Deployment Monitoring</p>
+            </div>
+          </div>
+
+          <div class="right-section">
+            <div class="live-clock">
+              <div class="clock-face">
+                <i class="fas fa-clock"></i>
+                <span id="liveClock">00:00:00</span>
+              </div>
+              <div class="last-sync">
+                Last sync: <span id="lastSyncTime">Just now</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Interactive Tab Navigation -->
+      <nav class="live-tab-navigation">
+        <div class="tab-slider"></div>
+        <button class="live-tab-btn active" data-tab="overview">
+          <div class="tab-icon-wrapper">
+            <i class="fas fa-tachometer-alt"></i>
+          </div>
+          <span class="tab-label">Overview</span>
+        </button>
+        <button class="live-tab-btn" data-tab="analytics">
+          <div class="tab-icon-wrapper">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <span class="tab-label">Analytics</span>
+        </button>
+        <button class="live-tab-btn" data-tab="devices">
+          <div class="tab-icon-wrapper">
+            <i class="fas fa-laptop-code"></i>
+          </div>
+          <span class="tab-label">Devices</span>
+        </button>
+        <button class="live-tab-btn" data-tab="actions">
+          <div class="tab-icon-wrapper">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <span class="tab-label">Actions</span>
+        </button>
+      </nav>
+
+      <!-- Overview Tab -->
+      <div id="overview" class="tab-panel active">
+        <!-- Live KPI Grid -->
+        <div class="kpi-grid">
+          <div
+            class="live-kpi-card primary"
+            data-tooltip="Overall deployment completion percentage"
+          >
+            <div class="kpi-background">
+              <div class="kpi-pattern"></div>
+            </div>
+            <div class="kpi-content">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrapper">
+                  <i class="fas fa-percentage"></i>
+                </div>
+                <div class="kpi-trend up">
+                  <i class="fas fa-arrow-up"></i>
+                  <span>+1.2%</span>
+                </div>
+              </div>
+              <div class="kpi-main">
+                <div class="kpi-value" data-target="28.8">0%</div>
+                <div class="kpi-label">Completion Rate</div>
+              </div>
+              <div class="kpi-progress">
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 28.8%">
+                    <div class="progress-glow"></div>
+                  </div>
+                </div>
+                <div class="progress-dots">
+                  <span class="dot active"></span>
+                  <span class="dot active"></span>
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+              </div>
+            </div>
+            <div class="hover-overlay"></div>
+          </div>
+
+          <div
+            class="live-kpi-card success"
+            data-tooltip="Successfully installed EDR endpoints"
+          >
+            <div class="kpi-background">
+              <div class="kpi-pattern"></div>
+            </div>
+            <div class="kpi-content">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrapper">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="kpi-trend up">
+                  <i class="fas fa-arrow-up"></i>
+                  <span>+3</span>
+                </div>
+              </div>
+              <div class="kpi-main">
+                <div class="kpi-value" data-target="64">0</div>
+                <div class="kpi-label">Installed</div>
+              </div>
+              <div class="kpi-stats">
+                <div class="stat-item">
+                  <i class="fas fa-desktop"></i>
+                  <span>Endpoints</span>
+                </div>
+              </div>
+            </div>
+            <div class="hover-overlay"></div>
+          </div>
+
+          <div
+            class="live-kpi-card warning"
+            data-tooltip="Devices not responding to installation"
+          >
+            <div class="kpi-background">
+              <div class="kpi-pattern"></div>
+            </div>
+            <div class="kpi-content">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrapper">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="kpi-trend down">
+                  <i class="fas fa-arrow-down"></i>
+                  <span>-1</span>
+                </div>
+              </div>
+              <div class="kpi-main">
+                <div class="kpi-value" data-target="5">0</div>
+                <div class="kpi-label">No Response</div>
+              </div>
+              <div class="kpi-stats">
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <span>Pending</span>
+                </div>
+              </div>
+            </div>
+            <div class="hover-overlay"></div>
+          </div>
+
+          <div
+            class="live-kpi-card danger"
+            data-tooltip="Devices with installation issues"
+          >
+            <div class="kpi-background">
+              <div class="kpi-pattern"></div>
+            </div>
+            <div class="kpi-content">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrapper">
+                  <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="kpi-trend neutral">
+                  <i class="fas fa-equals"></i>
+                  <span>0</span>
+                </div>
+              </div>
+              <div class="kpi-main">
+                <div class="kpi-value" data-target="1">0</div>
+                <div class="kpi-label">Issues</div>
+              </div>
+              <div class="kpi-stats">
+                <div class="stat-item">
+                  <i class="fas fa-bug"></i>
+                  <span>Critical</span>
+                </div>
+              </div>
+            </div>
+            <div class="hover-overlay"></div>
+          </div>
         </div>
 
-        <!-- Main Card -->
-        <div class="maintenance-card slide-up">
-            <!-- Status Badge -->
-            <div class="status-badge">
-                <div class="status-dot"></div>
-                <span>MAINTENANCE IN PROGRESS</span>
+        <!-- Live Progress Section -->
+        <div class="live-progress-section">
+          <div class="section-header">
+            <div class="section-icon-wrapper">
+              <i class="fas fa-rocket"></i>
+            </div>
+            <div class="section-title">
+              <h3>Deployment Progress</h3>
+              <p>Real-time installation tracking</p>
+            </div>
+            <div class="section-actions"></div>
+          </div>
+
+          <div class="progress-grid">
+            <div class="progress-card completed">
+              <div class="progress-header">
+                <div class="progress-icon">
+                  <i class="fas fa-check-double"></i>
+                </div>
+                <div class="progress-info">
+                  <h4>Completed</h4>
+                  <span class="progress-percentage">28.8%</span>
+                </div>
+              </div>
+              <div class="live-progress-bar">
+                <div class="progress-track">
+                  <div
+                    class="progress-fill completed-fill"
+                    style="width: 28.8%"
+                  >
+                    <div class="progress-shimmer"></div>
+                  </div>
+                </div>
+                <div class="progress-value">64 / 222</div>
+              </div>
             </div>
 
-            <!-- Icon -->
-            <div class="maintenance-icon">
-                <i class="fas fa-tools"></i>
+            <div class="progress-card remaining">
+              <div class="progress-header">
+                <div class="progress-icon">
+                  <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="progress-info">
+                  <h4>Remaining</h4>
+                  <span class="progress-percentage">71.2%</span>
+                </div>
+              </div>
+              <div class="live-progress-bar">
+                <div class="progress-track">
+                  <div
+                    class="progress-fill remaining-fill"
+                    style="width: 71.2%"
+                  >
+                    <div class="progress-shimmer"></div>
+                  </div>
+                </div>
+                <div class="progress-value">158 / 222</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Stats Grid -->
+        <div class="stats-grid">
+          <div
+            class="live-stat-card"
+            data-tooltip="Total devices in organization"
+          >
+            <div class="stat-icon-wrapper">
+              <i class="fas fa-server"></i>
+              <div class="icon-pulse"></div>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value" data-target="222">0</div>
+              <div class="stat-label">Total Assets</div>
+              <div class="stat-trend">
+                <i class="fas fa-chart-line"></i>
+                <span>Stable</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="live-stat-card" data-tooltip="Protected endpoints">
+            <div class="stat-icon-wrapper">
+              <i class="fas fa-shield-check"></i>
+              <div class="fa-solid fa-shield fa-2xl"></div>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value" data-target="64">0</div>
+              <div class="stat-label">Protected</div>
+              <div class="stat-trend success">
+                <i class="fas fa-arrow-up"></i>
+                <span>+4.8%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="live-stat-card" data-tooltip="Unprotected devices">
+            <div class="stat-icon-wrapper">
+              <i class="fas fa-exclamation-triangle"></i>
+              <div class="icon-pulse warning"></div>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value" data-target="158">0</div>
+              <div class="stat-label">Remaining</div>
+              <div class="stat-trend warning">
+                <i class="fas fa-arrow-down"></i>
+                <span>-2.1%</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="live-stat-card"
+            data-tooltip="Days since deployment started"
+          >
+            <div class="stat-icon-wrapper">
+              <i class="fas fa-calendar-day"></i>
+              <div class="icon-pulse info"></div>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value" data-target="9">0</div>
+              <div class="stat-label">Days Active</div>
+              <div class="stat-trend info">
+                <i class="fas fa-clock"></i>
+                <span>Ongoing</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="live-stat-card"
+            data-tooltip="Average installation success rate"
+          >
+            <div class="stat-icon-wrapper">
+              <i class="fas fa-percentage"></i>
+              <div class="icon-pulse success"></div>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value" data-target="63.4" data-suffix="%">
+                0%
+              </div>
+              <div class="stat-label">Success Rate</div>
+              <div class="stat-trend success">
+                <i class="fas fa-thumbs-up"></i>
+                <span>Good</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="live-stat-card" data-tooltip="Deployment start date">
+            <div class="stat-icon-wrapper">
+              <i class="fas fa-play-circle"></i>
+              <div class="icon-pulse info"></div>
+            </div>
+            <div class="stat-content">
+              <div class="stat-value">Oct 2</div>
+              <div class="stat-label">Start Date</div>
+              <div class="stat-trend info">
+                <i class="fas fa-calendar"></i>
+                <span>2025</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Tab -->
+      <div id="analytics" class="tab-panel">
+        <div class="analytics-grid">
+          <!-- OS Distribution Card -->
+          <div class="live-analytics-card os-distribution">
+            <div class="card-header">
+              <div class="header-icon">
+                <i class="fas fa-desktop"></i>
+              </div>
+              <div class="header-content">
+                <h3>Operating System Distribution</h3>
+                <p>Device OS breakdown with installation counts</p>
+              </div>
+              <div class="header-actions"></div>
             </div>
 
-            <!-- Content -->
-            <h2 class="maintenance-title">Dashboard Under Maintenance</h2>
-            <p class="maintenance-subtitle">We're making improvements to serve you better</p>
-            <p class="maintenance-description">
-                Our CrowdStrike EDR Dashboard is currently undergoing scheduled maintenance to improve performance, 
-                enhance security features, and add new functionality. We apologize for any inconvenience and 
-                appreciate your patience while we work to deliver the best experience.
-            </p>
-
-            <!-- Progress Section -->
-            <div class="progress-section">
-                <div class="progress-label">System Optimization in Progress...</div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill">
-                        <div class="progress-shimmer"></div>
-                    </div>
+            <div id="os_distribution_analytics" class="os-grid">
+              <div class="os-stat-item windows11">
+                <div class="os-icon-wrapper">
+                  <i class="fab fa-windows"></i>
+                  <div class="version-badge">10</div>
                 </div>
+                <div class="os-info">
+                  <!-- <div class="os-count" data-target="59">0</div> -->
+                  <div class="os-name">Windows 10</div>
+                  <div class="os-details">
+                    <span class="percentage">92.2%</span>
+                    <span class="version">22H2</span>
+                  </div>
+                </div>
+                <div class="os-progress-ring">
+                  <svg width="60" height="60">
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="rgba(59, 130, 246, 0.2)"
+                      stroke-width="4"
+                      fill="none"
+                    />
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="#3b82f6"
+                      stroke-width="4"
+                      fill="none"
+                      stroke-dasharray="157.08"
+                      stroke-dashoffset="12.25"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <div class="ring-percentage">92%</div>
+                </div>
+              </div>
+
+              <div class="os-stat-item windows10">
+                <div class="os-icon-wrapper">
+                  <i class="fab fa-windows"></i>
+                  <div class="version-badge">11</div>
+                </div>
+                <div class="os-info">
+                  <!-- <div class="os-count" data-target="4">0</div> -->
+                  <div class="os-name">Windows 11</div>
+                  <div class="os-details">
+                    <span class="percentage">6.2%</span>
+                    <span class="version">24H2</span>
+                  </div>
+                </div>
+                <div class="os-progress-ring">
+                  <svg width="60" height="60">
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="rgba(245, 158, 11, 0.2)"
+                      stroke-width="4"
+                      fill="none"
+                    />
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="#f59e0b"
+                      stroke-width="4"
+                      fill="none"
+                      stroke-dasharray="157.08"
+                      stroke-dashoffset="147.34"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <div class="ring-percentage">6%</div>
+                </div>
+              </div>
+
+              <div class="os-stat-item macos">
+                <div class="os-icon-wrapper">
+                  <i class="fab fa-apple"></i>
+                  <div class="version-badge">14</div>
+                </div>
+                <div class="os-info">
+                  <!-- <div class="os-count" data-target="1">0</div> -->
+                  <div class="os-name">macOS</div>
+                  <div class="os-details">
+                    <span class="percentage">1.6%</span>
+                    <span class="version">15.7</span>
+                  </div>
+                </div>
+                <div class="os-progress-ring">
+                  <svg width="60" height="60">
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="rgba(148, 163, 184, 0.2)"
+                      stroke-width="4"
+                      fill="none"
+                    />
+                    <circle
+                      cx="30"
+                      cy="30"
+                      r="25"
+                      stroke="#94a3b8"
+                      stroke-width="4"
+                      fill="none"
+                      stroke-dasharray="157.08"
+                      stroke-dashoffset="154.57"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <div class="ring-percentage">2%</div>
+                </div>
+              </div>
             </div>
 
-            <!-- Info Grid -->
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="info-title">Expected Duration</div>
-                    <div class="info-value">2-4 Hours</div>
+            <!-- <div class="chart-section">
+              <div class="chart-container">
+                <canvas id="osChart"></canvas>
+              </div>
+            </div> -->
+            <!-- Horizontal OS Distribution Chart -->
+            <div class="os-horizontal-chart" id="os-distribution-bar-chart">
+              <div class="os-chart-item" data-os="windows10">
+                <div class="os-label">
+                  <i class="fab fa-windows"></i>
+                  <span class="os-name">Windows 10</span>
+                  <span class="os-version">22H2</span>
                 </div>
-
-                <div class="info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-calendar-check"></i>
-                    </div>
-                    <div class="info-title">Started At</div>
-                    <div class="info-value" id="startTime">Loading...</div>
+                <div class="os-bar-container">
+                  <div class="os-bar" data-percentage="84.6">
+                    <div class="os-bar-fill" style="width: 84.6%"></div>
+                    <div class="os-bar-shimmer"></div>
+                  </div>
+                  <div class="os-count">126 devices</div>
                 </div>
-
-                <div class="info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <div class="info-title">Status</div>
-                    <div class="info-value">Upgrading</div>
+                <div class="os-percentage">84.6%</div>
+              </div>
+          
+              <div class="os-chart-item" data-os="windows11">
+                <div class="os-label">
+                  <i class="fab fa-windows"></i>
+                  <span class="os-name">Windows 11</span>
+                  <span class="os-version">24H2</span>
                 </div>
-            </div>
-
-            <!-- Contact Section -->
-            <div class="contact-section">
-                <div class="contact-title">Need Immediate Assistance?</div>
-                <div class="contact-links">
-                    <a href="mailto:infra-team-lk@Directfn.com" class="contact-link">
-                        <i class="fas fa-envelope"></i>
-                        <span>Infra - Team - LK @ DirectFN.Com</span>
-                    </a>
+                <div class="os-bar-container">
+                  <div class="os-bar" data-percentage="13.4">
+                    <div class="os-bar-fill" style="width: 13.4%"></div>
+                    <div class="os-bar-shimmer"></div>
+                  </div>
+                  <div class="os-count">20 devices</div>
                 </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="maintenance-footer">
-                <p><strong>DirectFN</strong> - Infra - Team - LK</p>
-                
+                <div class="os-percentage">13.4%</div>
+              </div>
+ 
+              <div class="os-chart-item" data-os="macos">
+                <div class="os-label">
+                  <i class="fab fa-apple"></i>
+                  <span class="os-name">macOS</span>
+                  <span class="os-version">15.7</span>
+                </div>
+                <div class="os-bar-container">
+                  <div class="os-bar" data-percentage="2.0">
+                    <div class="os-bar-fill" style="width: 2.0%"></div>
+                    <div class="os-bar-shimmer"></div>
+                  </div>
+                  <div class="os-count">3 devices</div>
+                </div>
+                <div class="os-percentage">2.0%</div>
+              </div>
             </div>
         </div>
+
+          <!-- Timeline Metrics -->
+          <div class="live-analytics-card timeline-metrics">
+            <div class="card-header">
+              <div class="header-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="header-content">
+                <h3>Installation Timeline</h3>
+                <p>Deployment progress over time</p>
+              </div>
+            </div>
+
+            <div class="timeline-grid">
+              <div class="timeline-stat">
+                <div class="timeline-icon">
+                  <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-value" data-target="9">0</div>
+                  <div class="timeline-label">Days Active</div>
+                </div>
+                <div class="timeline-trend">
+                  <div class="trend-line up"></div>
+                </div>
+              </div>
+
+              <div class="timeline-stat">
+                <div class="timeline-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-value" data-target="16.2">0</div>
+                  <div class="timeline-label">Avg/Day</div>
+                </div>
+                <div class="timeline-trend">
+                  <div class="trend-line stable"></div>
+                </div>
+              </div>
+
+              <div class="timeline-stat">
+                <div class="timeline-icon">
+                  <i class="fas fa-play"></i>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-value">Oct 2</div>
+                  <div class="timeline-label">Start Date</div>
+                </div>
+                <div class="timeline-trend">
+                  <div class="trend-line info"></div>
+                </div>
+              </div>
+
+              <div class="timeline-stat">
+                <div class="timeline-icon">
+                  <i class="fas fa-flag-checkered"></i>
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-value">Oct 9</div>
+                  <div class="timeline-label">Last Install</div>
+                </div>
+                <div class="timeline-trend">
+                  <div class="trend-line recent"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success Rate Analysis -->
+          <div class="live-analytics-card success-rates">
+            <div class="card-header">
+              <div class="header-icon">
+                <i class="fas fa-chart-pie"></i>
+              </div>
+              <div class="header-content">
+                <h3>Success Rate Analysis</h3>
+                <p>Installation outcome metrics</p>
+              </div>
+            </div>
+
+            <div class="rates-grid">
+              <div class="rate-item success">
+                <div class="rate-circle">
+                  <svg width="80" height="80">
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="35"
+                      stroke="rgba(16, 185, 129, 0.2)"
+                      stroke-width="6"
+                      fill="none"
+                    />
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="35"
+                      stroke="#10b981"
+                      stroke-width="6"
+                      fill="none"
+                      stroke-dasharray="219.91"
+                      stroke-dashoffset="80.37"
+                      stroke-linecap="round"
+                      class="animate-draw"
+                    />
+                  </svg>
+                  <div class="rate-value">63.4%</div>
+                </div>
+                <div class="rate-label">Success Rate</div>
+                <div class="rate-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+              </div>
+
+              <div class="rate-item response">
+                <div class="rate-circle">
+                  <svg width="80" height="80">
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="35"
+                      stroke="rgba(59, 130, 246, 0.2)"
+                      stroke-width="6"
+                      fill="none"
+                    />
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="35"
+                      stroke="#3b82f6"
+                      stroke-width="6"
+                      fill="none"
+                      stroke-dasharray="219.91"
+                      stroke-dashoffset="6.16"
+                      stroke-linecap="round"
+                      class="animate-draw"
+                    />
+                  </svg>
+                  <div class="rate-value">97.2%</div>
+                </div>
+                <div class="rate-label">Response Rate</div>
+                <div class="rate-icon">
+                  <i class="fas fa-reply"></i>
+                </div>
+              </div>
+
+              <div class="rate-item issue">
+                <div class="rate-circle">
+                  <svg width="80" height="80">
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="35"
+                      stroke="rgba(239, 68, 68, 0.2)"
+                      stroke-width="6"
+                      fill="none"
+                    />
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="35"
+                      stroke="#ef4444"
+                      stroke-width="6"
+                      fill="none"
+                      stroke-dasharray="219.91"
+                      stroke-dashoffset="219.03"
+                      stroke-linecap="round"
+                      class="animate-draw"
+                    />
+                  </svg>
+                  <div class="rate-value">0.4%</div>
+                </div>
+                <div class="rate-label">Issue Rate</div>
+                <div class="rate-icon">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </div>
+              </div>
+
+              <div class="rate-item pending">
+                <div class="rate-circle">
+                  <svg width="80" height="80">
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="35"
+                      stroke="rgba(245, 158, 11, 0.2)"
+                      stroke-width="6"
+                      fill="none"
+                    />
+                    <circle
+                      cx="40"
+                      cy="40"
+                      r="35"
+                      stroke="#f59e0b"
+                      stroke-width="6"
+                      fill="none"
+                      stroke-dasharray="219.91"
+                      stroke-dashoffset="63.33"
+                      stroke-linecap="round"
+                      class="animate-draw"
+                    />
+                  </svg>
+                  <div class="rate-value">71.2%</div>
+                </div>
+                <div class="rate-label">Pending Rate</div>
+                <div class="rate-icon">
+                  <i class="fas fa-hourglass-half"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Devices Tab -->
+      <div id="devices" class="tab-panel">
+        <div class="devices-section">
+          <div class="section-header">
+            <div class="header-icon">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <div class="header-content">
+              <h3>Device Inventory</h3>
+              <p class="device-count">
+                Total: <span id="deviceCount">222</span> devices
+              </p>
+            </div>
+            <div class="header-controls">
+              <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input
+                  type="text"
+                  id="deviceSearch"
+                  placeholder="Search devices, users, or asset tags..."
+                />
+                <div class="search-suggestions"></div>
+              </div>
+              <div class="control-buttons">
+                <button
+                  class="control-btn refresh"
+                  onclick="refreshDevices()"
+                  data-tooltip="Refresh device data"
+                >
+                  <i class="fas fa-sync-alt"></i>
+                  <span>Refresh</span>
+                </button>
+                <button
+                  class="control-btn export"
+                  onclick="printDevices()"
+                  data-tooltip="Export device report"
+                >
+                  <i class="fas fa-file-export"></i>
+                  <span>Export</span>
+                </button>
+              </div>
+              <div>
+
+            <!-- Pagination change  -->
+
+    Show 
+    <select id="recordsPerPage">
+      <option value="5">5</option>
+      <option value="10" selected>10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+    </select>
+    records per page
+
+    <!-- Pagination change  -->
+            <div class="pagination">
+              <button id="prevBtn" class="control-btn" onclick="paginatorBackward()">Previous</button>
+              <button id="nextBtn" class="control-btn" onclick="paginatorForward()">Next </button>
+              <!-- <span id="pageInfo"></span> -->
+            </div>
+            <div>
+              <span id="pageInfo"></span>
+            </div>
+          </div>
+  </div>
+
+
+            </div>
+          </div>
+
+          <div class="devices-table-wrapper">
+            <table id="dataTable" class="devices-table"> <!-- pagination change ID-->
+              <thead>
+                <tr>
+                  <th class="sortable" data-sort="assetTag">
+                    <div class="th-content">
+                      <i class="fas fa-tag"></i>
+                      <span>Asset Tag</span>
+                      <i class="fas fa-sort sort-icon"></i>
+                    </div>
+                  </th>
+                  <th class="sortable" data-sort="userName">
+                    <div class="th-content">
+                      <i class="fas fa-user"></i>
+                      <span>User Name</span>
+                      <i class="fas fa-sort sort-icon"></i>
+                    </div>
+                  </th>
+                  <th class="sortable" data-sort="os">
+                    <div class="th-content">
+                      <i class="fas fa-desktop"></i>
+                      <span>Operating System</span>
+                      <i class="fas fa-sort sort-icon"></i>
+                    </div>
+                  </th>
+                  <th class="sortable" data-sort="status">
+                    <div class="th-content">
+                      <i class="fas fa-info-circle"></i>
+                      <span>Status</span>
+                      <i class="fas fa-sort sort-icon"></i>
+                    </div>
+                  </th>
+                  <th class="sortable" data-sort="installDate">
+                    <div class="th-content">
+                      <i class="fas fa-calendar"></i>
+                      <span>Install Time (min:sec:mil)</span>
+                      <i class="fas fa-sort sort-icon"></i>
+                    </div>
+                  </th>
+                  <!--  <th>
+                                  <div class="th-content">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Actions</span>
+                                    </div>
+                                </th>-->
+                </tr>
+              </thead>
+              <tbody id="devicesTableBody">
+                <!-- Dynamic content will be loaded here -->
+              </tbody>
+            </table>
+
+            <!-- Pagination change  -->
+            <div class="pagination">
+              <button id="prevBtn" class="control-btn" onclick="paginatorBackward()">Previous</button>
+              <span id="pageInfo"></span>
+              <button id="nextBtn" class="control-btn" onclick="paginatorForward()">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions Tab -->
+      <div id="actions" class="tab-panel">
+        <div class="actions-grid">
+          <div class="action-card recommendations">
+            <div class="card-header">
+              <div class="header-icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <div class="header-content">
+                <h3>Strategic Recommendations</h3>
+                <p>AI-powered deployment optimization</p>
+              </div>
+            </div>
+            <div class="recommendations-list">
+              <div class="recommendation-item high-priority">
+                <div class="priority-badge">HIGH</div>
+                <div class="recommendation-content">
+                  <div class="recommendation-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                  </div>
+                  <div class="recommendation-text">
+                    <h4>Address Unresponsive Devices</h4>
+                    <p>
+                      5 devices require manual intervention for EDR installation
+                    </p>
+                    <div class="recommendation-actions"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="recommendation-item medium-priority">
+                <div class="priority-badge">MEDIUM</div>
+                <div class="recommendation-content">
+                  <div class="recommendation-icon">
+                    <i class="fas fa-users"></i>
+                  </div>
+                  <div class="recommendation-text">
+                    <h4>Windows 10 Migration Plan</h4>
+                    <p>
+                      4 devices still running Windows 10 need upgrade strategy
+                    </p>
+                    <div class="recommendation-actions"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="recommendation-item low-priority">
+                <div class="priority-badge">LOW</div>
+                <div class="recommendation-content">
+                  <div class="recommendation-icon">
+                    <i class="fas fa-key"></i>
+                  </div>
+                  <div class="recommendation-text">
+                    <h4>Resolve Activation Issues</h4>
+                    <p>1 device has activation key problems</p>
+                    <div class="recommendation-actions"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-card risk-assessment">
+            <div class="card-header">
+              <div class="header-icon">
+                <i class="fa-solid fa-asterisk"></i>
+              </div>
+              <div class="header-content">
+                <h3>Risk Assessment</h3>
+                <p>Security risk analysis and mitigation</p>
+              </div>
+            </div>
+            <div class="risk-matrix">
+              <div class="risk-item risk-high">
+                <div class="risk-indicator">
+                  <div class="risk-icon">
+                    <i class="fas fa-times-circle"></i>
+                  </div>
+                  <div class="risk-level">High Risk</div>
+                  <div class="risk-status clear">Clear</div>
+                </div>
+                <div class="risk-description">
+                  No critical security risks identified. All high-priority
+                  threats have been addressed.
+                </div>
+              </div>
+
+              <div class="risk-item risk-medium">
+                <div class="risk-indicator">
+                  <div class="risk-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </div>
+                  <div class="risk-level">Medium Risk</div>
+                  <div class="risk-status active">5 Issues</div>
+                </div>
+                <div class="risk-description">
+                  Unresponsive devices create potential security gaps. Immediate
+                  action required for compliance.
+                </div>
+                <div class="risk-actions"></div>
+              </div>
+
+              <div class="risk-item risk-low">
+                <div class="risk-indicator">
+                  <div class="risk-icon">
+                    <i class="a-solid fa-bolt"></i>
+                  </div>
+                  <div class="risk-level">Mitigation Active</div>
+                  <div class="risk-status progress">In Progress</div>
+                </div>
+                <div class="risk-description">
+                  Enhanced monitoring deployed for unprotected devices. Manual
+                  installation scheduled within 7 days.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script>
-        // Display current time as start time
-        function updateStartTime() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: true 
-            });
-            document.getElementById('startTime').textContent = timeString;
-        }
+    <!-- Interactive Tooltips -->
+    <div class="tooltip" id="tooltip">
+      <div class="tooltip-content"></div>
+      <div class="tooltip-arrow"></div>
+    </div>
 
-        // Initialize on page load
-        updateStartTime();
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+      <div class="loading-spinner">
+        <div class="spinner-ring"></div>
+        <div class="loading-text">Loading Dashboard...</div>
+      </div>
+    </div>
 
-        // Auto-refresh check every 5 minutes
-        setInterval(() => {
-            // You can add logic here to check if maintenance is complete
-            console.log('Checking maintenance status...');
-        }, 300000); // 5 minutes
-
-        // Add stagger animation delays
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.info-card');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${0.2 + (index * 0.1)}s`;
-                card.classList.add('fade-in');
-            });
-        });
-    </script>
-</body>
+    <script src="./app.js"></script>
+  </body>
 </html>
